@@ -3,6 +3,7 @@ import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import { getAirports } from '../../services/getAirports';
 import { getAllAirports } from '../../services/getAllAirports';
 import { Aiport } from '../Aiport';
+import { Link } from 'react-router-dom';
 
 export const Map = () => {
   const santoriniCoordinates = [36.3932, 25.4615];
@@ -30,8 +31,9 @@ export const Map = () => {
         {airports.map((marker, index) => (
           <Marker key={index} position={{ lat: marker.lat, lng: marker.lng }}>
             <Popup>
-              {/* <Aiport /> */}
-              <p>aca</p>
+              <Link to={`/${marker.id}`}>
+                <Aiport />
+              </Link>
             </Popup>
           </Marker>
         ))}
