@@ -12,7 +12,6 @@ export function Aiport() {
   const [open, setOpen] = useState(false)
 
   const { id } = useParams()
-
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 

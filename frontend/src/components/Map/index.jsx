@@ -16,7 +16,7 @@ export const Map = () => {
   }, []);
 
   return (
-    <div className="relative z-[-1]">
+    <div className="relative z-[0]">
       <MapContainer
         center={santoriniCoordinates}
         zoom={13}
@@ -28,9 +28,10 @@ export const Map = () => {
           attribution="Map data &copy; <a href='https://www.openstreetmap.org/'>OpenStreetMap</a> contributors"
         />
         {airports.map((marker, index) => (
-          <Marker key={index} position={marker.position}>
+          <Marker key={index} position={{ lat: marker.lat, lng: marker.lng }}>
             <Popup>
-              <Aiport />
+              {/* <Aiport /> */}
+              <p>aca</p>
             </Popup>
           </Marker>
         ))}
