@@ -12,11 +12,13 @@ export const Map = () => {
   const [airports, setAirports] = useState([]);
   const [airportVisible, setAirportVisible] = useState(false);
 
+  
   useEffect(() => {
     getAllAirports().then(res => {
       setAirports(res);
     });
   }, []);
+
   
   const { filterProducts } = useFilters();
   const filteredMarkers = filterProducts(airports);
@@ -33,10 +35,10 @@ export const Map = () => {
           attribution="Map data &copy; <a href='https://www.openstreetmap.org/'>OpenStreetMap</a> contributors"
         />
         {filteredMarkers.map((marker, index) => (
-          <Marker key={index} position={marker.position}>
+          <Marker key={index} position={{ lat: marker.lat, lng: marker.lng }}>
             <Popup>
               <Link to={`/${marker.id}`}>
-                <h3 className='text-black/100 font-medium grid justify-center mb-4'>{marker.text}</h3>
+                <h3 className='text-black/100 font-medium grid justify-center mb-4'>{marker.name}</h3>
                 <button
                   onClick={() => setAirportVisible(true)}
                   className='bg-black text-white w-[100px] h-[25px] rounded-sm shadow-md hover:bg-black/75 transition'
