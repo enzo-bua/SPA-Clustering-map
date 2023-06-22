@@ -4,18 +4,22 @@ import { getAirports } from '../../services/getAirports';
 import { getAllAirports } from '../../services/getAllAirports';
 import { Aiport } from '../Aiport';
 import { Link } from 'react-router-dom';
+import { useFilters } from '../../useHook/useFilters';
 
 export const Map = () => {
   const santoriniCoordinates = [36.3932, 25.4615];
 
   const [airports, setAirports] = useState([]);
+  const [airportVisible, setAirportVisible] = useState(false);
 
   useEffect(() => {
     getAllAirports().then(res => {
       setAirports(res);
     });
   }, []);
-
+  
+  const { filterProducts } = useFilters();
+  const filteredMarkers = filterProducts(airports);
   return (
     <div className="relative z-[0]">
       <MapContainer
@@ -28,12 +32,19 @@ export const Map = () => {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution="Map data &copy; <a href='https://www.openstreetmap.org/'>OpenStreetMap</a> contributors"
         />
-        {airports.map((marker, index) => (
-          <Marker key={index} position={{ lat: marker.lat, lng: marker.lng }}>
+        {filteredMarkers.map((marker, index) => (
+          <Marker key={index} position={marker.position}>
             <Popup>
               <Link to={`/${marker.id}`}>
-                <Aiport />
+                <h3 className='text-black/100 font-medium grid justify-center mb-4'>{marker.text}</h3>
+                <button
+                  onClick={() => setAirportVisible(true)}
+                  className='bg-black text-white w-[100px] h-[25px] rounded-sm shadow-md hover:bg-black/75 transition'
+                >
+                  Ver detalles
+                </button>
               </Link>
+              {airportVisible && <Aiport />}
             </Popup>
           </Marker>
         ))}
@@ -41,5 +52,3 @@ export const Map = () => {
     </div>
   );
 };
-
-
